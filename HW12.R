@@ -68,7 +68,7 @@ mean.beta.10.10 <- 10/(10+10)
 ################################################################################
 # Part a
 ################################################################################
-#left tailed test for beta(10,2)
+#left-tailed test for beta(10,2)
 count.error.left.10.2 <- 0
 #perform the simulation
 for (i in 1:n.simulations){
@@ -85,7 +85,7 @@ for (i in 1:n.simulations){
 rate.left.10.2 <- count.error.left.10.2/n.simulations
 
 
-#left tailed test for beta(2,10)
+#left-tailed test for beta(2,10)
 count.error.left.2.10 <- 0
 #perform the simulation
 for (i in 1:n.simulations){
@@ -102,7 +102,7 @@ for (i in 1:n.simulations){
 rate.left.2.10 <- count.error.left.2.10/n.simulations
 
 
-#left tailed test for beta(10,10)
+#left-tailed test for beta(10,10)
 count.error.left.10.10 <- 0
 #perform the simulation
 for (i in 1:n.simulations){
@@ -121,7 +121,7 @@ rate.left.10.10 <- count.error.left.10.10/n.simulations
 ################################################################################
 # Part b
 ################################################################################
-#right tailed test for beta(10,2)
+#right-tailed test for beta(10,2)
 count.error.right.10.2 <- 0
 #perform the simulation
 for (i in 1:n.simulations){
@@ -138,7 +138,7 @@ for (i in 1:n.simulations){
 rate.right.10.2 <- count.error.right.10.2/n.simulations
 
 
-#right tailed test for beta(2,10)
+#right-tailed test for beta(2,10)
 count.error.right.2.10 <- 0
 #perform the simulation
 for (i in 1:n.simulations){
@@ -155,7 +155,7 @@ for (i in 1:n.simulations){
 rate.right.2.10 <- count.error.right.2.10/n.simulations
 
 
-#right tailed test for beta(10,10)
+#right-tailed test for beta(10,10)
 count.error.right.10.10 <- 0
 #perform the simulation
 for (i in 1:n.simulations){
@@ -171,4 +171,55 @@ for (i in 1:n.simulations){
 #calculate the proportion of time we make a Type 1 error
 rate.right.10.10 <- count.error.right.10.10/n.simulations
 
+################################################################################
+# Part c
+################################################################################
+#two-tailed test for beta(10,2)
+count.error.two.10.2 <- 0
+#perform the simulation
+for (i in 1:n.simulations){
+  #get a sample from beta distribution
+  sample <- rbeta(n, shape1 = 10, shape2 = 2)
+  #perform a t-test on the sample
+  t_test <- t.test(sample, alternative = "two.sided", mu = mean.beta.10.2)
+  #check if we got a type 1 error
+  if (t_test$p.value < alpha){
+    count.error.two.10.2 <- count.error.two.10.2 +1
+  }
+}
+#calculate the proportion of time we make a Type 1 error
+rate.two.10.2 <- count.error.two.10.2/n.simulations
 
+
+#two-tailed test for beta(2,10)
+count.error.two.2.10 <- 0
+#perform the simulation
+for (i in 1:n.simulations){
+  #get a sample from beta distribution
+  sample <- rbeta(n, shape1 = 2, shape2 = 10)
+  #perform a t-test on the sample
+  t_test <- t.test(sample, alternative = "two.sided", mu = mean.beta.2.10)
+  #check if we got a type 1 error
+  if (t_test$p.value < alpha){
+    count.error.two.2.10 <- count.error.two.2.10 +1
+  }
+}
+#calculate the proportion of time we make a Type 1 error
+rate.two.2.10 <- count.error.two.2.10/n.simulations
+
+
+#two-tailed test for beta(10,10)
+count.error.two.10.10 <- 0
+#perform the simulation
+for (i in 1:n.simulations){
+  #get a sample from beta distribution
+  sample <- rbeta(n, shape1 = 10, shape2 = 10)
+  #perform a t-test on the sample
+  t_test <- t.test(sample, alternative = "two.sided", mu = mean.beta.10.10)
+  #check if we got a type 1 error
+  if (t_test$p.value < alpha){
+    count.error.two.10.10 <- count.error.two.10.10 +1
+  }
+}
+#calculate the proportion of time we make a Type 1 error
+rate.two.10.10 <- count.error.two.10.10/n.simulations
