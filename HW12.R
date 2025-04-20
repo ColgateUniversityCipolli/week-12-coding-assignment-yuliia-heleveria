@@ -1,6 +1,7 @@
 #make sure the code runs in a fresh session
 #for part 1 c, what do we use for n?
 #did i correctly compare the distributions
+#shoud i delete percentages
 
 ################################################################################
 # HW 9 R CODE

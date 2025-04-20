@@ -105,7 +105,11 @@ alternative.
 \hldef{df_20} \hlkwb{<-} \hlnum{20} \hlopt{-}\hlnum{1}
 \hlcom{#get the critical value for statistically discernible support}
 \hldef{critical_20} \hlkwb{<-} \hlkwd{qt}\hldef{(}\hlkwc{p} \hldef{=} \hlnum{1} \hlopt{-} \hldef{alpha,} \hlkwc{df} \hldef{= df_20)}
+\hldef{critical_20}
 \end{alltt}
+\begin{verbatim}
+## [1] 1.729133
+\end{verbatim}
 \end{kframe}
 \end{knitrout}
 The value $t_{20}$ = 1.729 provides statisticaly discernible support for the alterative hypothesis.
@@ -117,7 +121,11 @@ The value $t_{20}$ = 1.729 provides statisticaly discernible support for the alt
 \hldef{df_30} \hlkwb{<-} \hlnum{30} \hlopt{-}\hlnum{1}
 \hlcom{#get the critical value for statistically discernible support}
 \hldef{critical_30} \hlkwb{<-} \hlkwd{qt}\hldef{(}\hlkwc{p} \hldef{=} \hlnum{1} \hlopt{-} \hldef{alpha,} \hlkwc{df} \hldef{= df_30)}
+\hldef{critical_30}
 \end{alltt}
+\begin{verbatim}
+## [1] 1.699127
+\end{verbatim}
 \end{kframe}
 \end{knitrout}
 The value $t_{30}$ = 1.699 provides statisticaly discernible support for the alterative hypothesis.
@@ -148,9 +156,14 @@ The value $t_{30}$ = 1.699 provides statisticaly discernible support for the alt
 
 \hlcom{#calculate the rate of receiving Type I error }
 \hldef{rate.type1} \hlkwb{<-} \hldef{type1.count}\hlopt{/}\hldef{n.simulations}
+\hldef{rate.type1}
 \end{alltt}
+\begin{verbatim}
+## [1] 0.065
+\end{verbatim}
 \end{kframe}
 \end{knitrout}
+The Type I error rate for a Laplace distribution with $a=0$ and $b=4.0$ by using a simulation is 0.065 = 6.5\%. 
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -165,14 +178,239 @@ The value $t_{30}$ = 1.699 provides statisticaly discernible support for the alt
   \begin{enumerate}
     \item What proportion of the time do we make an error of Type I for a
     left-tailed test?
+\begin{knitrout}\scriptsize
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hldef{n} \hlkwb{<-}\hlnum{15}
+\hlcom{#calculate the true means for each of beta distributions}
+\hldef{mean.beta.10.2} \hlkwb{<-} \hlnum{10}\hlopt{/}\hldef{(}\hlnum{10}\hlopt{+}\hlnum{2}\hldef{)}
+\hldef{mean.beta.2.10} \hlkwb{<-} \hlnum{2}\hlopt{/}\hldef{(}\hlnum{2}\hlopt{+}\hlnum{10}\hldef{)}
+\hldef{mean.beta.10.10} \hlkwb{<-} \hlnum{10}\hlopt{/}\hldef{(}\hlnum{10}\hlopt{+}\hlnum{10}\hldef{)}
+
+\hlcom{#left-tailed test for beta(10,2)}
+\hldef{count.error.left.10.2} \hlkwb{<-} \hlnum{0}
+\hlcom{#perform the simulation}
+\hlkwa{for} \hldef{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hldef{n.simulations)\{}
+  \hlcom{#get a sample from beta distribution}
+  \hldef{sample} \hlkwb{<-} \hlkwd{rbeta}\hldef{(n,} \hlkwc{shape1} \hldef{=} \hlnum{10}\hldef{,} \hlkwc{shape2} \hldef{=} \hlnum{2}\hldef{)}
+  \hlcom{#perform a t-test on the sample}
+  \hldef{t_test} \hlkwb{<-} \hlkwd{t.test}\hldef{(sample,} \hlkwc{alternative} \hldef{=} \hlsng{"less"}\hldef{,} \hlkwc{mu} \hldef{= mean.beta.10.2)}
+  \hlcom{#check if we got a type 1 error}
+  \hlkwa{if} \hldef{(t_test}\hlopt{$}\hldef{p.value} \hlopt{<} \hldef{alpha)\{}
+\hldef{count.error.left.10.2} \hlkwb{<-} \hldef{count.error.left.10.2} \hlopt{+}\hlnum{1}
+  \hldef{\}}
+\hldef{\}}
+\hlcom{#calculate the proportion of time we make a Type 1 error}
+\hldef{rate.left.10.2} \hlkwb{<-} \hldef{count.error.left.10.2}\hlopt{/}\hldef{n.simulations}
+
+
+\hlcom{#left-tailed test for beta(2,10)}
+\hldef{count.error.left.2.10} \hlkwb{<-} \hlnum{0}
+\hlcom{#perform the simulation}
+\hlkwa{for} \hldef{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hldef{n.simulations)\{}
+  \hlcom{#get a sample from beta distribution}
+  \hldef{sample} \hlkwb{<-} \hlkwd{rbeta}\hldef{(n,} \hlkwc{shape1} \hldef{=} \hlnum{2}\hldef{,} \hlkwc{shape2} \hldef{=} \hlnum{10}\hldef{)}
+  \hlcom{#perform a t-test on the sample}
+  \hldef{t_test} \hlkwb{<-} \hlkwd{t.test}\hldef{(sample,} \hlkwc{alternative} \hldef{=} \hlsng{"less"}\hldef{,} \hlkwc{mu} \hldef{= mean.beta.2.10)}
+  \hlcom{#check if we got a type 1 error}
+  \hlkwa{if} \hldef{(t_test}\hlopt{$}\hldef{p.value} \hlopt{<} \hldef{alpha)\{}
+\hldef{count.error.left.2.10} \hlkwb{<-} \hldef{count.error.left.2.10} \hlopt{+}\hlnum{1}
+  \hldef{\}}
+\hldef{\}}
+\hlcom{#calculate the proportion of time we make a Type 1 error}
+\hldef{rate.left.2.10} \hlkwb{<-} \hldef{count.error.left.2.10}\hlopt{/}\hldef{n.simulations}
+
+
+\hlcom{#left-tailed test for beta(10,10)}
+\hldef{count.error.left.10.10} \hlkwb{<-} \hlnum{0}
+\hlcom{#perform the simulation}
+\hlkwa{for} \hldef{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hldef{n.simulations)\{}
+  \hlcom{#get a sample from beta distribution}
+  \hldef{sample} \hlkwb{<-} \hlkwd{rbeta}\hldef{(n,} \hlkwc{shape1} \hldef{=} \hlnum{10}\hldef{,} \hlkwc{shape2} \hldef{=} \hlnum{10}\hldef{)}
+  \hlcom{#perform a t-test on the sample}
+  \hldef{t_test} \hlkwb{<-} \hlkwd{t.test}\hldef{(sample,} \hlkwc{alternative} \hldef{=} \hlsng{"less"}\hldef{,} \hlkwc{mu} \hldef{= mean.beta.10.10)}
+  \hlcom{#check if we got a type 1 error}
+  \hlkwa{if} \hldef{(t_test}\hlopt{$}\hldef{p.value} \hlopt{<} \hldef{alpha)\{}
+\hldef{count.error.left.10.10} \hlkwb{<-} \hldef{count.error.left.10.10} \hlopt{+}\hlnum{1}
+  \hldef{\}}
+\hldef{\}}
+\hlcom{#calculate the proportion of time we make a Type 1 error}
+\hldef{rate.left.10.10} \hlkwb{<-} \hldef{count.error.left.10.10}\hlopt{/}\hldef{n.simulations}
+
+\hldef{rate.left.10.2}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.035
+\end{verbatim}
+\begin{alltt}
+\hldef{rate.left.2.10}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.066
+\end{verbatim}
+\begin{alltt}
+\hldef{rate.left.10.10}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.058
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+We make an error of Type I for a left-tailed test 0.035 = 3.5\% for Beta(10,2),  0.066 = 6.6\% for Beta(2,10), and 0.058 = 5.8\% for Beta(10,10).
     \item What proportion of the time do we make an error of Type I for a
     right-tailed test?
+\begin{knitrout}\scriptsize
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{#right-tailed test for beta(10,2)}
+\hldef{count.error.right.10.2} \hlkwb{<-} \hlnum{0}
+\hlcom{#perform the simulation}
+\hlkwa{for} \hldef{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hldef{n.simulations)\{}
+  \hlcom{#get a sample from beta distribution}
+  \hldef{sample} \hlkwb{<-} \hlkwd{rbeta}\hldef{(n,} \hlkwc{shape1} \hldef{=} \hlnum{10}\hldef{,} \hlkwc{shape2} \hldef{=} \hlnum{2}\hldef{)}
+  \hlcom{#perform a t-test on the sample}
+  \hldef{t_test} \hlkwb{<-} \hlkwd{t.test}\hldef{(sample,} \hlkwc{alternative} \hldef{=} \hlsng{"greater"}\hldef{,} \hlkwc{mu} \hldef{= mean.beta.10.2)}
+  \hlcom{#check if we got a type 1 error}
+  \hlkwa{if} \hldef{(t_test}\hlopt{$}\hldef{p.value} \hlopt{<} \hldef{alpha)\{}
+\hldef{count.error.right.10.2} \hlkwb{<-} \hldef{count.error.right.10.2} \hlopt{+}\hlnum{1}
+  \hldef{\}}
+\hldef{\}}
+\hlcom{#calculate the proportion of time we make a Type 1 error}
+\hldef{rate.right.10.2} \hlkwb{<-} \hldef{count.error.right.10.2}\hlopt{/}\hldef{n.simulations}
+
+
+\hlcom{#right-tailed test for beta(2,10)}
+\hldef{count.error.right.2.10} \hlkwb{<-} \hlnum{0}
+\hlcom{#perform the simulation}
+\hlkwa{for} \hldef{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hldef{n.simulations)\{}
+  \hlcom{#get a sample from beta distribution}
+  \hldef{sample} \hlkwb{<-} \hlkwd{rbeta}\hldef{(n,} \hlkwc{shape1} \hldef{=} \hlnum{2}\hldef{,} \hlkwc{shape2} \hldef{=} \hlnum{10}\hldef{)}
+  \hlcom{#perform a t-test on the sample}
+  \hldef{t_test} \hlkwb{<-} \hlkwd{t.test}\hldef{(sample,} \hlkwc{alternative} \hldef{=} \hlsng{"greater"}\hldef{,} \hlkwc{mu} \hldef{= mean.beta.2.10)}
+  \hlcom{#check if we got a type 1 error}
+  \hlkwa{if} \hldef{(t_test}\hlopt{$}\hldef{p.value} \hlopt{<} \hldef{alpha)\{}
+\hldef{count.error.right.2.10} \hlkwb{<-} \hldef{count.error.right.2.10} \hlopt{+}\hlnum{1}
+  \hldef{\}}
+\hldef{\}}
+\hlcom{#calculate the proportion of time we make a Type 1 error}
+\hldef{rate.right.2.10} \hlkwb{<-} \hldef{count.error.right.2.10}\hlopt{/}\hldef{n.simulations}
+
+
+\hlcom{#right-tailed test for beta(10,10)}
+\hldef{count.error.right.10.10} \hlkwb{<-} \hlnum{0}
+\hlcom{#perform the simulation}
+\hlkwa{for} \hldef{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hldef{n.simulations)\{}
+  \hlcom{#get a sample from beta distribution}
+  \hldef{sample} \hlkwb{<-} \hlkwd{rbeta}\hldef{(n,} \hlkwc{shape1} \hldef{=} \hlnum{10}\hldef{,} \hlkwc{shape2} \hldef{=} \hlnum{10}\hldef{)}
+  \hlcom{#perform a t-test on the sample}
+  \hldef{t_test} \hlkwb{<-} \hlkwd{t.test}\hldef{(sample,} \hlkwc{alternative} \hldef{=} \hlsng{"greater"}\hldef{,} \hlkwc{mu} \hldef{= mean.beta.10.10)}
+  \hlcom{#check if we got a type 1 error}
+  \hlkwa{if} \hldef{(t_test}\hlopt{$}\hldef{p.value} \hlopt{<} \hldef{alpha)\{}
+\hldef{count.error.right.10.10} \hlkwb{<-} \hldef{count.error.right.10.10} \hlopt{+}\hlnum{1}
+  \hldef{\}}
+\hldef{\}}
+\hlcom{#calculate the proportion of time we make a Type 1 error}
+\hldef{rate.right.10.10} \hlkwb{<-} \hldef{count.error.right.10.10}\hlopt{/}\hldef{n.simulations}
+
+\hldef{rate.right.10.2}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.08
+\end{verbatim}
+\begin{alltt}
+\hldef{rate.right.2.10}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.034
+\end{verbatim}
+\begin{alltt}
+\hldef{rate.right.10.10}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.044
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+We make an error of Type I for a right-tailed test 0.08 = 8\% for Beta(10,2),  0.034 = 3.4\% for Beta(2,10), and 0.044 = 4.4\% for Beta(10,10).
     \item What proportion of the time do we make an error of Type I for a
     two-tailed test?
+\begin{knitrout}\scriptsize
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{#two-tailed test for beta(10,2)}
+\hldef{count.error.two.10.2} \hlkwb{<-} \hlnum{0}
+\hlcom{#perform the simulation}
+\hlkwa{for} \hldef{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hldef{n.simulations)\{}
+  \hlcom{#get a sample from beta distribution}
+  \hldef{sample} \hlkwb{<-} \hlkwd{rbeta}\hldef{(n,} \hlkwc{shape1} \hldef{=} \hlnum{10}\hldef{,} \hlkwc{shape2} \hldef{=} \hlnum{2}\hldef{)}
+  \hlcom{#perform a t-test on the sample}
+  \hldef{t_test} \hlkwb{<-} \hlkwd{t.test}\hldef{(sample,} \hlkwc{alternative} \hldef{=} \hlsng{"two.sided"}\hldef{,} \hlkwc{mu} \hldef{= mean.beta.10.2)}
+  \hlcom{#check if we got a type 1 error}
+  \hlkwa{if} \hldef{(t_test}\hlopt{$}\hldef{p.value} \hlopt{<} \hldef{alpha)\{}
+\hldef{count.error.two.10.2} \hlkwb{<-} \hldef{count.error.two.10.2} \hlopt{+}\hlnum{1}
+  \hldef{\}}
+\hldef{\}}
+\hlcom{#calculate the proportion of time we make a Type 1 error}
+\hldef{rate.two.10.2} \hlkwb{<-} \hldef{count.error.two.10.2}\hlopt{/}\hldef{n.simulations}
+
+
+\hlcom{#two-tailed test for beta(2,10)}
+\hldef{count.error.two.2.10} \hlkwb{<-} \hlnum{0}
+\hlcom{#perform the simulation}
+\hlkwa{for} \hldef{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hldef{n.simulations)\{}
+  \hlcom{#get a sample from beta distribution}
+  \hldef{sample} \hlkwb{<-} \hlkwd{rbeta}\hldef{(n,} \hlkwc{shape1} \hldef{=} \hlnum{2}\hldef{,} \hlkwc{shape2} \hldef{=} \hlnum{10}\hldef{)}
+  \hlcom{#perform a t-test on the sample}
+  \hldef{t_test} \hlkwb{<-} \hlkwd{t.test}\hldef{(sample,} \hlkwc{alternative} \hldef{=} \hlsng{"two.sided"}\hldef{,} \hlkwc{mu} \hldef{= mean.beta.2.10)}
+  \hlcom{#check if we got a type 1 error}
+  \hlkwa{if} \hldef{(t_test}\hlopt{$}\hldef{p.value} \hlopt{<} \hldef{alpha)\{}
+\hldef{count.error.two.2.10} \hlkwb{<-} \hldef{count.error.two.2.10} \hlopt{+}\hlnum{1}
+  \hldef{\}}
+\hldef{\}}
+\hlcom{#calculate the proportion of time we make a Type 1 error}
+\hldef{rate.two.2.10} \hlkwb{<-} \hldef{count.error.two.2.10}\hlopt{/}\hldef{n.simulations}
+
+
+\hlcom{#two-tailed test for beta(10,10)}
+\hldef{count.error.two.10.10} \hlkwb{<-} \hlnum{0}
+\hlcom{#perform the simulation}
+\hlkwa{for} \hldef{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hldef{n.simulations)\{}
+  \hlcom{#get a sample from beta distribution}
+  \hldef{sample} \hlkwb{<-} \hlkwd{rbeta}\hldef{(n,} \hlkwc{shape1} \hldef{=} \hlnum{10}\hldef{,} \hlkwc{shape2} \hldef{=} \hlnum{10}\hldef{)}
+  \hlcom{#perform a t-test on the sample}
+  \hldef{t_test} \hlkwb{<-} \hlkwd{t.test}\hldef{(sample,} \hlkwc{alternative} \hldef{=} \hlsng{"two.sided"}\hldef{,} \hlkwc{mu} \hldef{= mean.beta.10.10)}
+  \hlcom{#check if we got a type 1 error}
+  \hlkwa{if} \hldef{(t_test}\hlopt{$}\hldef{p.value} \hlopt{<} \hldef{alpha)\{}
+\hldef{count.error.two.10.10} \hlkwb{<-} \hldef{count.error.two.10.10} \hlopt{+}\hlnum{1}
+  \hldef{\}}
+\hldef{\}}
+\hlcom{#calculate the proportion of time we make a Type 1 error}
+\hldef{rate.two.10.10} \hlkwb{<-} \hldef{count.error.two.10.10}\hlopt{/}\hldef{n.simulations}
+
+\hldef{rate.two.10.2}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.062
+\end{verbatim}
+\begin{alltt}
+\hldef{rate.two.2.10}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.067
+\end{verbatim}
+\begin{alltt}
+\hldef{rate.two.10.10}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.049
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+We make an error of Type I for a two-tailed test 0.062 = 6.2\% for Beta(10,2),  0.067 = 6.7\% for Beta(2,10), and 0.049 = 4.9\% for Beta(10,10).
     \item How does skewness of the underlying population distribution effect
-    Type I error across the test types?
-    For a right-skewed distribution, $Beta(2,10)$, the Type I error is inflated the most for the right-tailed test and inflated a little for the two-tailed test. For a left-skewed distribution, $Beta(10,2)$, the Type I error is the most inflated for the left-tailed test and inflated a little for the two-sided test. For a symmetrical distribution, $Beta(10,10)$, the Type I error is approximately 0.05 for all test types.
-    Overall, for the left-tailed test, the left-skewed distribution has the smallest Type I error. For the right-tailed test, the right-skewed distribution has the smallest Type I error. For the two-tailed test, the symetical distributin has the smallest Type I error.  
+    Type I error across the test types? \\
+    For a right-skewed distribution, Beta(2,10), the Type I error is inflated for the right-tailed test. For a left-skewed distribution, Beta(10,2), the Type I error is inflated for the left-tailed test. For a symmetrical distribution, Beta(10,10), the Type I error is approximately 0.05 for all test types.
+    Overall, for the left-tailed test, the right-skewed distribution has the smallest Type I error. For the right-tailed test, the left-skewed distribution has the smallest Type I error. For the two-tailed test, the symmetrical distribution has the smallest Type I error.  
   \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
