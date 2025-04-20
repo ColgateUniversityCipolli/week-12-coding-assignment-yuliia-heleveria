@@ -1,5 +1,6 @@
 #make sure the code runs in a fresh session
 #for part 1 c, what do we use for n?
+#did i correctly compare the distributions
 
 ################################################################################
 # HW 9 R CODE

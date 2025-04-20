@@ -16,6 +16,7 @@
 \begin{document}
 <<echo=F, message=F, warning=F>>=
 library(tidyverse)
+library(VGAM)
 @
 
 \begin{enumerate}
@@ -49,12 +50,48 @@ alternative.
 \begin{enumerate}
   \item What values of $t_{20}$ provide statistically discernible support for the
   alternative hypothesis?
+  <<size = 'scriptsize', message=F, warning=F>>=
+mu0 <- 0
+alpha <- 0.05
+df_20 <- 20 -1
+#get the critical value for statistically discernible support
+critical_20 <- qt(p = 1 - alpha, df = df_20) 
+@
+The value $t_{20}$ = \Sexpr{round(critical_20,3)} provides statisticaly discernible support for the alterative hypothesis.
   \item What values of $t_{30}$ provide statistically discernible support for the
   alternative hypothesis?
+   <<size = 'scriptsize', message=F, warning=F>>=
+df_30 <- 30 -1
+#get the critical value for statistically discernible support
+critical_30 <- qt(p = 1 - alpha, df = df_30) 
+@
+The value $t_{30}$ = \Sexpr{round(critical_30,3)} provides statisticaly discernible support for the alterative hypothesis.
   \item Suppose $f_X(x)$ is a Laplace distribution with $a=0$ and $b=4.0$.
   Conduct a simulation study to assess the Type I error rate of this approach.\\
   \textbf{Note:} You can use the \texttt{rlaplace()} function from the \texttt{VGAM}
   package for \texttt{R} \citep{VGAM}.
+  <<size = 'scriptsize', message=F, warning=F>>=
+#Conduct a simulation study to assess the Type I error 
+a <- 0
+b <- 4.0
+n.simulations <- 1000
+type1.count <- 0 #count the number of times we got Type I error
+
+#conduct the simulation
+for (i in 1:n.simulations){
+  sim <- rlaplace(n = 30, location = a, scale = b)
+  #calculate the critical point
+  t_sim <- mean(sim)/ (sd(sim)/sqrt(30))
+  
+  #check if t is larger than the critical point
+  if (t_sim > critical_30){
+    type1.count = type1.count + 1
+  }
+}
+
+#calculate the rate of receiving Type I error 
+rate.type1 <- type1.count/n.simulations
+@
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -75,6 +112,8 @@ alternative.
     two-tailed test?
     \item How does skewness of the underlying population distribution effect
     Type I error across the test types?
+    For a right-skewed distribution, $Beta(2,10)$, the Type I error is inflated the most for the right-tailed test and inflated a little for the two-tailed test. For a left-skewed distribution, $Beta(10,2)$, the Type I error is the most inflated for the left-tailed test and inflated a little for the two-sided test. For a symmetrical distribution, $Beta(10,10)$, the Type I error is approximately 0.05 for all test types.
+    Overall, for the left-tailed test, the left-skewed distribution has the smallest Type I error. For the right-tailed test, the right-skewed distribution has the smallest Type I error. For the two-tailed test, the symetical distributin has the smallest Type I error.  
   \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
