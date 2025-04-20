@@ -55,8 +55,6 @@ alternative.
   Conduct a simulation study to assess the Type I error rate of this approach.\\
   \textbf{Note:} You can use the \texttt{rlaplace()} function from the \texttt{VGAM}
   package for \texttt{R} \citep{VGAM}.
-  \item \textbf{Optional Challenge:} Can you find a value of $\alpha<0.05$ that yields a 
-  Type I error rate of 0.05?
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
