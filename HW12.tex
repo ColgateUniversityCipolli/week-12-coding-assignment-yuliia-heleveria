@@ -159,11 +159,11 @@ The value $t_{30}$ = 1.699 provides statisticaly discernible support for the alt
 \hldef{rate.type1}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.065
+## [1] 0.042
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
-The Type I error rate for a Laplace distribution with $a=0$ and $b=4.0$ by using a simulation is 0.065 = 6.5\%. 
+The Type I error rate for a Laplace distribution with $a=0$ and $b=4.0$ by using a simulation is 0.042 = 4.2\%. 
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -240,23 +240,23 @@ The Type I error rate for a Laplace distribution with $a=0$ and $b=4.0$ by using
 \hldef{rate.left.10.2}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.035
+## [1] 0.034
 \end{verbatim}
 \begin{alltt}
 \hldef{rate.left.2.10}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.066
+## [1] 0.088
 \end{verbatim}
 \begin{alltt}
 \hldef{rate.left.10.10}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.058
+## [1] 0.062
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
-We make an error of Type I for a left-tailed test 0.035 = 3.5\% for Beta(10,2),  0.066 = 6.6\% for Beta(2,10), and 0.058 = 5.8\% for Beta(10,10).
+We make an error of Type I for a left-tailed test 0.034 = 3.4\% for Beta(10,2),  0.088 = 8.8\% for Beta(2,10), and 0.062 = 6.2\% for Beta(10,10).
     \item What proportion of the time do we make an error of Type I for a
     right-tailed test?
 \begin{knitrout}\scriptsize
@@ -315,7 +315,7 @@ We make an error of Type I for a left-tailed test 0.035 = 3.5\% for Beta(10,2), 
 \hldef{rate.right.10.2}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.08
+## [1] 0.098
 \end{verbatim}
 \begin{alltt}
 \hldef{rate.right.2.10}
@@ -327,11 +327,11 @@ We make an error of Type I for a left-tailed test 0.035 = 3.5\% for Beta(10,2), 
 \hldef{rate.right.10.10}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.044
+## [1] 0.062
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
-We make an error of Type I for a right-tailed test 0.08 = 8\% for Beta(10,2),  0.034 = 3.4\% for Beta(2,10), and 0.044 = 4.4\% for Beta(10,10).
+We make an error of Type I for a right-tailed test 0.098 = 9.8\% for Beta(10,2),  0.034 = 3.4\% for Beta(2,10), and 0.062 = 6.2\% for Beta(10,10).
     \item What proportion of the time do we make an error of Type I for a
     two-tailed test?
 \begin{knitrout}\scriptsize
@@ -390,23 +390,23 @@ We make an error of Type I for a right-tailed test 0.08 = 8\% for Beta(10,2),  0
 \hldef{rate.two.10.2}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.062
+## [1] 0.055
 \end{verbatim}
 \begin{alltt}
 \hldef{rate.two.2.10}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.067
+## [1] 0.061
 \end{verbatim}
 \begin{alltt}
 \hldef{rate.two.10.10}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.049
+## [1] 0.05
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
-We make an error of Type I for a two-tailed test 0.062 = 6.2\% for Beta(10,2),  0.067 = 6.7\% for Beta(2,10), and 0.049 = 4.9\% for Beta(10,10).
+We make an error of Type I for a two-tailed test 0.055 = 5.5\% for Beta(10,2),  0.061 = 6.1\% for Beta(2,10), and 0.05 = 5\% for Beta(10,10).
     \item How does skewness of the underlying population distribution effect
     Type I error across the test types? \\
     For a right-skewed distribution, Beta(2,10), the Type I error is inflated for the right-tailed test. For a left-skewed distribution, Beta(10,2), the Type I error is inflated for the left-tailed test. For a symmetrical distribution, Beta(10,10), the Type I error is approximately 0.05 for all test types.

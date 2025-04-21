@@ -1,7 +1,7 @@
 #make sure the code runs in a fresh session
-#for part 1 c, what do we use for n?
 #did i correctly compare the distributions
-#shoud i delete percentages
+#should i delete percentages
+#update writeup 1c
 
 ################################################################################
 # HW 9 R CODE
@@ -46,12 +46,19 @@ type1.count <- 0 #count the number of times we got Type I error
 #conduct the simulation
 for (i in 1:n.simulations){
   sim <- rlaplace(n = 30, location = a, scale = b)
-  #calculate the critical point
-  t_sim <- mean(sim)/ (sd(sim)/sqrt(30))
   
-  #check if t is larger than the critical point
-  if (t_sim > critical_30){
-    type1.count = type1.count + 1
+  #run t-test for 20 observations
+  sim20 <- sim[1:20]
+  t20 <- t.test(sim20, mu = mu0, alternative = "greater")
+  
+  #check if we make type 1 error
+  if (t20$p.value < 0.05){
+    type1.count = type1.count +1
+  }else{ #if p >= 0.05, try t-test on 30 observations
+    t30 <- t.test(sim, mu = mu0, alternative = "greater")
+    if (t30$p.value < 0.05){
+      type1.count = type1.count +1
+    }
   }
 }
 
