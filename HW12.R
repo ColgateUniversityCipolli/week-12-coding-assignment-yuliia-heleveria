@@ -1,7 +1,6 @@
 #make sure the code runs in a fresh session
 #did i correctly compare the distributions
 #should i delete percentages
-#update writeup 1c
 
 ################################################################################
 # HW 9 R CODE

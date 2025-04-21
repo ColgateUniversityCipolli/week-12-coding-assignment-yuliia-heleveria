@@ -58,7 +58,7 @@ df_20 <- 20 -1
 critical_20 <- qt(p = 1 - alpha, df = df_20) 
 critical_20
 @
-The value $t_{20}$ = \Sexpr{round(critical_20,3)} provides statisticaly discernible support for the alterative hypothesis.
+If the calculated t-statistic ($t_{20}$) is greater than \Sexpr{round(critical_20,3)}, then the researchers obtain statisticaly discernible support for the alternative hypothesis ($\mu_X > 0$) at the end of 20th month. In this case, the researchers can stop the experiment early.
   \item What values of $t_{30}$ provide statistically discernible support for the
   alternative hypothesis?
    <<size = 'scriptsize', message=F, warning=F>>=
@@ -67,7 +67,7 @@ df_30 <- 30 -1
 critical_30 <- qt(p = 1 - alpha, df = df_30) 
 critical_30
 @
-The value $t_{30}$ = \Sexpr{round(critical_30,3)} provides statisticaly discernible support for the alterative hypothesis.
+If the research continues for 30 month and the calculated t-statistic ($t_{30}$) is greater than \Sexpr{round(critical_30,3)}, then the researchers obtain statisticaly discernible support for the alternative ($\mu_X > 0$) hypothesis at the end of 30th month.
   \item Suppose $f_X(x)$ is a Laplace distribution with $a=0$ and $b=4.0$.
   Conduct a simulation study to assess the Type I error rate of this approach.\\
   \textbf{Note:} You can use the \texttt{rlaplace()} function from the \texttt{VGAM}
@@ -82,12 +82,19 @@ type1.count <- 0 #count the number of times we got Type I error
 #conduct the simulation
 for (i in 1:n.simulations){
   sim <- rlaplace(n = 30, location = a, scale = b)
-  #calculate the critical point
-  t_sim <- mean(sim)/ (sd(sim)/sqrt(30))
   
-  #check if t is larger than the critical point
-  if (t_sim > critical_30){
-    type1.count = type1.count + 1
+  #run t-test for 20 observations
+  sim20 <- sim[1:20]
+  t20 <- t.test(sim20, mu = mu0, alternative = "greater")
+  
+  #check if we make type 1 error
+  if (t20$p.value < 0.05){
+    type1.count = type1.count +1
+  }else{ #if p >= 0.05, try t-test on 30 observations
+    t30 <- t.test(sim, mu = mu0, alternative = "greater")
+    if (t30$p.value < 0.05){
+      type1.count = type1.count +1
+    }
   }
 }
 
@@ -290,8 +297,8 @@ rate.two.10.10
 We make an error of Type I for a two-tailed test \Sexpr{rate.two.10.2} = \Sexpr{rate.two.10.2*100}\% for Beta(10,2),  \Sexpr{rate.two.2.10} = \Sexpr{rate.two.2.10*100}\% for Beta(2,10), and \Sexpr{rate.two.10.10} = \Sexpr{rate.two.10.10*100}\% for Beta(10,10).
     \item How does skewness of the underlying population distribution effect
     Type I error across the test types? \\
-    For a right-skewed distribution, Beta(2,10), the Type I error is inflated for the right-tailed test. For a left-skewed distribution, Beta(10,2), the Type I error is inflated for the left-tailed test. For a symmetrical distribution, Beta(10,10), the Type I error is approximately 0.05 for all test types.
-    Overall, for the left-tailed test, the right-skewed distribution has the smallest Type I error. For the right-tailed test, the left-skewed distribution has the smallest Type I error. For the two-tailed test, the symmetrical distribution has the smallest Type I error.  
+    For a right-skewed distribution, Beta(2,10), the Type I error is inflated for the left-tailed test and Type I error may be deflated for the right-tailed test. For a left-skewed distribution, Beta(10,2), the Type I error is inflated for the tight-tailed test and Type I error may be deflated for the left-tailed test. For a symmetrical distribution, Beta(10,10), the Type I error is approximately 0.05 for all test types.
+    Overall, for the left-tailed test, the left-skewed distribution has the smallest Type I error. For the right-tailed test, the right-skewed distribution has the smallest Type I error. For the two-tailed test, the symmetrical distribution has the smallest Type I error.  
   \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

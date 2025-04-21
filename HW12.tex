@@ -112,7 +112,7 @@ alternative.
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
-The value $t_{20}$ = 1.729 provides statisticaly discernible support for the alterative hypothesis.
+If the calculated t-statistic ($t_{20}$) is greater than 1.729, then the researchers obtain statisticaly discernible support for the alternative hypothesis ($\mu_X > 0$) at the end of 20th month. In this case, the researchers can stop the experiment early.
   \item What values of $t_{30}$ provide statistically discernible support for the
   alternative hypothesis?
 \begin{knitrout}\scriptsize
@@ -128,7 +128,7 @@ The value $t_{20}$ = 1.729 provides statisticaly discernible support for the alt
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
-The value $t_{30}$ = 1.699 provides statisticaly discernible support for the alterative hypothesis.
+If the research continues for 30 month and the calculated t-statistic ($t_{30}$) is greater than 1.699, then the researchers obtain statisticaly discernible support for the alternative ($\mu_X > 0$) hypothesis at the end of 30th month.
   \item Suppose $f_X(x)$ is a Laplace distribution with $a=0$ and $b=4.0$.
   Conduct a simulation study to assess the Type I error rate of this approach.\\
   \textbf{Note:} You can use the \texttt{rlaplace()} function from the \texttt{VGAM}
@@ -145,12 +145,19 @@ The value $t_{30}$ = 1.699 provides statisticaly discernible support for the alt
 \hlcom{#conduct the simulation}
 \hlkwa{for} \hldef{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hldef{n.simulations)\{}
 \hldef{sim} \hlkwb{<-} \hlkwd{rlaplace}\hldef{(}\hlkwc{n} \hldef{=} \hlnum{30}\hldef{,} \hlkwc{location} \hldef{= a,} \hlkwc{scale} \hldef{= b)}
-\hlcom{#calculate the critical point}
-\hldef{t_sim} \hlkwb{<-} \hlkwd{mean}\hldef{(sim)}\hlopt{/} \hldef{(}\hlkwd{sd}\hldef{(sim)}\hlopt{/}\hlkwd{sqrt}\hldef{(}\hlnum{30}\hldef{))}
 
-\hlcom{#check if t is larger than the critical point}
-\hlkwa{if} \hldef{(t_sim} \hlopt{>} \hldef{critical_30)\{}
-  \hldef{type1.count} \hlkwb{=} \hldef{type1.count} \hlopt{+} \hlnum{1}
+\hlcom{#run t-test for 20 observations}
+\hldef{sim20} \hlkwb{<-} \hldef{sim[}\hlnum{1}\hlopt{:}\hlnum{20}\hldef{]}
+\hldef{t20} \hlkwb{<-} \hlkwd{t.test}\hldef{(sim20,} \hlkwc{mu} \hldef{= mu0,} \hlkwc{alternative} \hldef{=} \hlsng{"greater"}\hldef{)}
+
+\hlcom{#check if we make type 1 error}
+\hlkwa{if} \hldef{(t20}\hlopt{$}\hldef{p.value} \hlopt{<} \hlnum{0.05}\hldef{)\{}
+  \hldef{type1.count} \hlkwb{=} \hldef{type1.count} \hlopt{+}\hlnum{1}
+\hldef{\}}\hlkwa{else}\hldef{\{} \hlcom{#if p >= 0.05, try t-test on 30 observations}
+  \hldef{t30} \hlkwb{<-} \hlkwd{t.test}\hldef{(sim,} \hlkwc{mu} \hldef{= mu0,} \hlkwc{alternative} \hldef{=} \hlsng{"greater"}\hldef{)}
+  \hlkwa{if} \hldef{(t30}\hlopt{$}\hldef{p.value} \hlopt{<} \hlnum{0.05}\hldef{)\{}
+    \hldef{type1.count} \hlkwb{=} \hldef{type1.count} \hlopt{+}\hlnum{1}
+  \hldef{\}}
 \hldef{\}}
 \hldef{\}}
 
@@ -159,11 +166,11 @@ The value $t_{30}$ = 1.699 provides statisticaly discernible support for the alt
 \hldef{rate.type1}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.042
+## [1] 0.068
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
-The Type I error rate for a Laplace distribution with $a=0$ and $b=4.0$ by using a simulation is 0.042 = 4.2\%. 
+The Type I error rate for a Laplace distribution with $a=0$ and $b=4.0$ by using a simulation is 0.068 = 6.8\%. 
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -246,17 +253,17 @@ The Type I error rate for a Laplace distribution with $a=0$ and $b=4.0$ by using
 \hldef{rate.left.2.10}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.088
+## [1] 0.075
 \end{verbatim}
 \begin{alltt}
 \hldef{rate.left.10.10}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.062
+## [1] 0.051
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
-We make an error of Type I for a left-tailed test 0.034 = 3.4\% for Beta(10,2),  0.088 = 8.8\% for Beta(2,10), and 0.062 = 6.2\% for Beta(10,10).
+We make an error of Type I for a left-tailed test 0.034 = 3.4\% for Beta(10,2),  0.075 = 7.5\% for Beta(2,10), and 0.051 = 5.1\% for Beta(10,10).
     \item What proportion of the time do we make an error of Type I for a
     right-tailed test?
 \begin{knitrout}\scriptsize
@@ -315,23 +322,23 @@ We make an error of Type I for a left-tailed test 0.034 = 3.4\% for Beta(10,2), 
 \hldef{rate.right.10.2}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.098
+## [1] 0.077
 \end{verbatim}
 \begin{alltt}
 \hldef{rate.right.2.10}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.034
+## [1] 0.021
 \end{verbatim}
 \begin{alltt}
 \hldef{rate.right.10.10}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.062
+## [1] 0.045
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
-We make an error of Type I for a right-tailed test 0.098 = 9.8\% for Beta(10,2),  0.034 = 3.4\% for Beta(2,10), and 0.062 = 6.2\% for Beta(10,10).
+We make an error of Type I for a right-tailed test 0.077 = 7.7\% for Beta(10,2),  0.021 = 2.1\% for Beta(2,10), and 0.045 = 4.5\% for Beta(10,10).
     \item What proportion of the time do we make an error of Type I for a
     two-tailed test?
 \begin{knitrout}\scriptsize
@@ -390,27 +397,27 @@ We make an error of Type I for a right-tailed test 0.098 = 9.8\% for Beta(10,2),
 \hldef{rate.two.10.2}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.055
+## [1] 0.06
 \end{verbatim}
 \begin{alltt}
 \hldef{rate.two.2.10}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.061
+## [1] 0.077
 \end{verbatim}
 \begin{alltt}
 \hldef{rate.two.10.10}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.05
+## [1] 0.047
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
-We make an error of Type I for a two-tailed test 0.055 = 5.5\% for Beta(10,2),  0.061 = 6.1\% for Beta(2,10), and 0.05 = 5\% for Beta(10,10).
+We make an error of Type I for a two-tailed test 0.06 = 6\% for Beta(10,2),  0.077 = 7.7\% for Beta(2,10), and 0.047 = 4.7\% for Beta(10,10).
     \item How does skewness of the underlying population distribution effect
     Type I error across the test types? \\
-    For a right-skewed distribution, Beta(2,10), the Type I error is inflated for the right-tailed test. For a left-skewed distribution, Beta(10,2), the Type I error is inflated for the left-tailed test. For a symmetrical distribution, Beta(10,10), the Type I error is approximately 0.05 for all test types.
-    Overall, for the left-tailed test, the right-skewed distribution has the smallest Type I error. For the right-tailed test, the left-skewed distribution has the smallest Type I error. For the two-tailed test, the symmetrical distribution has the smallest Type I error.  
+    For a right-skewed distribution, Beta(2,10), the Type I error is inflated for the left-tailed test and Type I error may be deflated for the right-tailed test. For a left-skewed distribution, Beta(10,2), the Type I error is inflated for the tight-tailed test and Type I error may be deflated for the left-tailed test. For a symmetrical distribution, Beta(10,10), the Type I error is approximately 0.05 for all test types.
+    Overall, for the left-tailed test, the left-skewed distribution has the smallest Type I error. For the right-tailed test, the right-skewed distribution has the smallest Type I error. For the two-tailed test, the symmetrical distribution has the smallest Type I error.  
   \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
