@@ -1,7 +1,3 @@
-#make sure the code runs in a fresh session
-#did i correctly compare the distributions
-#should i delete percentages
-
 ################################################################################
 # HW 9 R CODE
 # YULIIA HELEVERIA
